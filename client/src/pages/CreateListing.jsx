@@ -4,13 +4,14 @@ import { categories, types, facilities} from "../data";
 
 import { RemoveCircleOutline, AddCircleOutline } from "@mui/icons-material";
 import variables from "../styles/variables.scss";
+
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd"
 import { IoIosImages } from "react-icons/io"
 import { useState } from "react";
 import { BiTrash } from "react-icons/bi";
 import { useSelector } from "react-redux";
-
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer"
 
 const CreateListing = () => {
 
@@ -164,6 +165,7 @@ const CreateListing = () => {
   return (
     <>
         <Navbar/>
+
         <div className="create-listing">
             <h1>Publish Your Place</h1>
             <form onSubmit={handlePost}>
@@ -388,12 +390,14 @@ const CreateListing = () => {
             
             <h3>Tell guests what your place has to offer</h3>
             <div className="amenities-grid">
-  {facilities?.map((item, index) => (
-    <div 
-      className={`amenity-item ${amenities.includes(item.name) ? "selected" : ""}`}
-      key={index}
-      onClick={() => handleSelectAmenities(item.name)}
-    >
+              {facilities?.map((item, index) => (
+                <div 
+                  className={`amenity-item ${
+                    amenities.includes(item.name) ? "selected" : ""
+                  }`}
+                  key={index}
+                  onClick={() => handleSelectAmenities(item.name)}
+                >
       <input 
         type="checkbox" 
         checked={amenities.includes(item.name)}
@@ -404,9 +408,7 @@ const CreateListing = () => {
   ))}
 </div>
 
-            <h3>Add some photos of your place</h3>
-            
-          
+          <h3>Add some photos of your place</h3>
           <DragDropContext onDragEnd={handleDragPhoto}>
             <Droppable droppableId="photos" direction="horizontal">
               {(provided) => (
@@ -545,7 +547,7 @@ const CreateListing = () => {
         </form>
     </div>
 
-     
+    <Footer />
     </>
   );
 };
