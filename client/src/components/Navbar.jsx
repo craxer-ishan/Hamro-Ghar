@@ -30,22 +30,28 @@ const Navbar = () => {
 
         <div className="navbar_right">
             { user ? (
-                <a href="/create-listing" className="host">Host</a>
+                <a href="/create-listing" className="host">
+                    Become A Host
+                    </a>
             ) : (
                 <a href="/login" className="host">
-           Host
-          </a>    
+                Become A Host
+                </a>    
             )}
-            <button className="navbar_right_account" onClick={() => setDropdownMenu(!dropdownMenu)}>
-                <Menu sx={{ color: variables.darkgrey }} />
-                {!user ? (
-            <Person sx={{ color: variables.darkgrey }} />
-            ) : (
-                <img
-                 src={`http://localhost:3001/${user.profileImagePath.replace(
-                    "public",
-                    ""
-                )}`}
+
+            <button 
+                className="navbar_right_account"
+                onClick={() => setDropdownMenu(!dropdownMenu)}
+                >
+                    <Menu sx={{ color: variables.darkgrey }} />
+                    {!user ? (
+                    <Person sx={{ color: variables.darkgrey }} />
+                ) : (
+                    <img
+                    src={`http://localhost:3001/${user.profileImagePath.replace(
+                        "public",
+                        ""
+                     )}`}
                     alt="profile photo"
                 style={{ objectFit: "cover", borderRadius: "50%" }}
                 />
@@ -83,4 +89,4 @@ const Navbar = () => {
     );
 };
 
-export default Navbar
+export default Navbar;
