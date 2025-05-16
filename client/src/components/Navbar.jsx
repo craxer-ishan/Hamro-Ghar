@@ -4,7 +4,7 @@ import variables from "../styles/variables.scss";
 import { useState } from "react";
 import { useSelector, useDispatch} from "react-redux";
 import "../styles/Navbar.scss"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { setLogout } from "../redux/state";
 
 const Navbar = () => {
@@ -13,6 +13,10 @@ const Navbar = () => {
     
     const dispatch = useDispatch();
 
+    const [search, setSearch] = useState("")
+
+    const navigate = useNavigate()
+
    return (
     <div className='navbar'>
         <a href="/">
@@ -20,11 +24,17 @@ const Navbar = () => {
         </a>
 
         <div className='navbar_search'>
-            <input type="text" placeholder='Search...' />
-            <IconButton>
-                <Search
-                sx={{ color: variables.pinkred }}
-            />
+            <input
+                type="text"
+                placeholder="Search ..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                />
+            <IconButton disabled={search === ""}>
+                 <Search
+                     sx={{ color: variables.pinkred }}
+                    onClick={() => {navigate(`/properties/search/${search}`)}}
+                />
             </IconButton>
         </div>
 
@@ -67,10 +77,10 @@ const Navbar = () => {
 
             {dropdownMenu && user && (
                 <div className="navbar_right_accountmenu">
-                <Link to="/trips ">Trip List</Link>
-                <Link to="/wishList ">Wish List</Link>
-                <Link to="/properties">Property List</Link>
-                <Link to="/reservations">Reservation List</Link>
+                <Link to={`/${user._id}/trips`}>Trip List</Link>
+                <Link to={`/${user._id}/wishList`}>Wish List</Link>
+                <Link to={`/${user._id}/properties`}>Property List</Link>
+                <Link to={`/${user._id}/reservations`}>Reservation List</Link>
                 <Link to="/create-listing ">Become A Host</Link>
 
             <Link

@@ -67,34 +67,31 @@ router.post("/register", upload.single("profileImage"), async (req, res) => {
   }
 });
 
-/* USER LOGIN*/
+/* USER LOGIN */
 router.post("/login", async (req, res) => {
   try {
-    /* Take the infomation from the form */
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
-    /* Check if user exists */
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(409).json({ message: "User doesn't exist!" });
+      return res.status(401).json({ message: "User doesn't exist!" });
     }
 
-    /* Compare the password with the hashed password */
-    const isMatch = await bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Invalid Credentials!"})
+      return res.status(401).json({ message: "Invalid credentials!" });
     }
 
-    /* Generate JWT token */
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET)
-    delete user.password
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    res.status(200).json({ token, user })
+    const { password: pwd, ...userWithoutPassword } = user._doc;
 
+    res.status(200).json({ token, user: userWithoutPassword });
   } catch (err) {
-    console.log(err)
-    res.status(500).json({ error: err.message })
+    console.error(err);
+    res.status(500).json({ message: "Login failed", error: err.message });
   }
-})
+});
+
 
 module.exports = router

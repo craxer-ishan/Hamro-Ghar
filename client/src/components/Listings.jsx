@@ -44,7 +44,7 @@ const Listings = () => {
       <div className='category-list'>
         {categories?.map((category, index) => (
           <div 
-            className={'category'} 
+            className={'category ${category.label === selectedCategory ? "selected" : ""}'} 
             key={index}  
             onClick={() => setSelectedCategory(category.label)}
           >
@@ -54,6 +54,42 @@ const Listings = () => {
         ))}
       </div>
       
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="listings">
+          {listings.map(
+            ({
+              _id,
+              creator,
+              listingPhotoPaths,
+              city,
+              province,
+              country,
+              category,
+              type,
+              price,
+              booking=false
+              
+            }) => (
+              <ListingCard
+                listingId={_id}
+                creator={creator}
+                listingPhotoPaths={listingPhotoPaths}
+                city={city}
+                province={province}
+                country={country}
+                category={category}
+                type={type}
+                price={price}
+                booking={booking}
+                
+              />
+            )
+          )}
+        </div>
+      
+      )}
     </>
   );
 };
